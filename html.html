@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Certificado</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        input, button { margin: 10px; padding: 8px; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <h1>Gerador de Certificado</h1>
+    <label>Nome do Aluno:</label>
+    <input type="text" id="nome" placeholder="Digite o nome"><br>
+    <label>Nome do Curso:</label>
+    <input type="text" id="curso" placeholder="Digite o curso"><br>
+    <label>Data de Conclusão:</label>
+    <input type="date" id="data"><br>
+    <button onclick="gerarCertificado()">Gerar Certificado</button>
+    
+    <script>
+        function gerarCertificado() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            let nome = document.getElementById("nome").value;
+            let curso = document.getElementById("curso").value;
+            let data = document.getElementById("data").value;
+            
+            if (!nome || !curso || !data) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(22);
+            doc.text("Certificado de Conclusão", 105, 40, { align: "center" });
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(16);
+            doc.text(`Certificamos que`, 105, 60, { align: "center" });
+            doc.setFont("helvetica", "bold");
+            doc.text(nome, 105, 70, { align: "center" });
+            doc.setFont("helvetica", "normal");
+            doc.text(`concluiu com êxito o curso de`, 105, 80, { align: "center" });
+            doc.setFont("helvetica", "bold");
+            doc.text(curso, 105, 90, { align: "center" });
+            doc.setFont("helvetica", "normal");
+            doc.text(`na data de ${data}.`, 105, 100, { align: "center" });
+
+            doc.text("__________________________", 105, 140, { align: "center" });
+            doc.text("Assinatura", 105, 150, { align: "center" });
+            
+            doc.save("Certificado.pdf");
+        }
+    </script>
+</body>
+</html>
